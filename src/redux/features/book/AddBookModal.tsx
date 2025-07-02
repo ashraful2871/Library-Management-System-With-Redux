@@ -28,20 +28,23 @@ import type { IBook } from "@/type";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { addBook } from "./book";
+import { useCreateBookMutation } from "@/redux/api/baseApi";
 
 const AddBookModal = () => {
   const form = useForm();
   const dispatch = useDispatch();
+  const [createBook, { data, isLoading, isError }] = useCreateBookMutation();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const bookData = {
       ...data,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-    console.log(bookData);
-    dispatch(addBook(bookData as IBook));
-    const res = await addBook(bookData as IBook);
-    console.log(res.payload);
+    // console.log(bookData);
+    // dispatch(addBook(bookData as IBook));
+    const res = await createBook(bookData).unwrap();
+    console.log(res);
+    console.log("ERROR", isError);
   };
   return (
     <div>
