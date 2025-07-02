@@ -8,13 +8,13 @@ const Navbar = () => {
         <Link to="/">MyApp</Link>
       </h1>
       <div className="space-x-4">
-        <Link to="/user" className="hover:text-yellow-300">
+        <Link to="/books" className="hover:text-yellow-300">
           All Books
         </Link>
-        <Link to="/task" className="hover:text-yellow-300">
+        <Link to="/create-book" className="hover:text-yellow-300">
           Add Book
         </Link>
-        <Link to="/task" className="hover:text-yellow-300">
+        <Link to="/borrow-summary" className="hover:text-yellow-300">
           Borrow Summary
         </Link>
       </div>
