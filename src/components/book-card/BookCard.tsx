@@ -8,18 +8,19 @@ import {
 } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { BookOpenIcon } from "lucide-react";
+import { BookOpenIcon, PencilIcon, Trash2Icon, EyeIcon } from "lucide-react";
 import type { IBook } from "@/type";
+import { Link } from "react-router"; // ✅ should be react-router-dom
 
 interface IProps {
   book: IBook;
 }
 
-const BookCard = ({ book }: IProps) => {
-  const { title, author, genre, description, available, copies, isbn } = book;
+const BookCard = ({ book, onDelete, onEdit }: IProps) => {
+  const { _id, title, author, genre, available, copies } = book;
 
   return (
-    <Card className="  shadow-xl rounded-2xl border border-muted bg-white dark:bg-muted/40">
+    <Card className="shadow-xl rounded-2xl border border-muted bg-white dark:bg-muted/40 transition hover:shadow-2xl">
       <CardHeader>
         <div className="flex items-start gap-3">
           <BookOpenIcon className="h-8 w-8 text-primary" />
@@ -40,18 +41,32 @@ const BookCard = ({ book }: IProps) => {
           </Badge>
           <Badge variant="outline">Copies: {copies}</Badge>
         </div>
-
-        <p className="text-sm text-muted-foreground line-clamp-3">
-          {description}
-        </p>
-
-        <div className="text-xs text-gray-500">ISBN: {isbn}</div>
       </CardContent>
 
-      <CardFooter className="justify-between">
-        <Button variant="outline" size="sm">
-          View Details
-        </Button>
+      <CardFooter className="flex flex-wrap justify-between gap-2">
+        <div className="flex gap-2">
+          <Link to={`/books/${_id}`}>
+            <Button size="sm" variant="outline">
+              <EyeIcon className="w-4 h-4 mr-1" />
+              View
+            </Button>
+          </Link>
+          <Link to={`/edit-book/${_id}`}>
+            <Button size="sm" variant="secondary">
+              <PencilIcon className="w-4 h-4 mr-1" />
+              Edit
+            </Button>
+          </Link>
+          <Button
+            size="sm"
+            variant="destructive"
+            // onClick={() => onDelete?.(_id)}
+          >
+            <Trash2Icon className="w-4 h-4 mr-1" />
+            Delete
+          </Button>
+        </div>
+
         <Button size="sm" disabled={!available}>
           Borrow
         </Button>

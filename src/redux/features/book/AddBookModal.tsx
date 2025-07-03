@@ -23,17 +23,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import type { IBook } from "@/type";
 
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { addBook } from "./book";
+
 import { useCreateBookMutation } from "@/redux/api/baseApi";
 
 const AddBookModal = () => {
   const form = useForm();
-  const dispatch = useDispatch();
-  const [createBook, { data, isLoading, isError }] = useCreateBookMutation();
+
+  const [createBook, { isLoading, isError }] = useCreateBookMutation();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const bookData = {
       ...data,
@@ -174,7 +172,7 @@ const AddBookModal = () => {
               />{" "}
               <DialogFooter>
                 <Button className="mt-6" type="submit">
-                  Save changes
+                  {isLoading ? "Creating..." : "Create"}
                 </Button>
               </DialogFooter>
             </form>

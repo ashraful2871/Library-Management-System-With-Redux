@@ -12,12 +12,28 @@ export const baseApi = createApi({
     }),
     createBook: builder.mutation({
       query: (bookData) => ({
-        url: "books",
+        url: "/books",
         method: "POST",
         body: bookData,
       }),
     }),
+    updateBook: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/books/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["book"],
+    }),
+    getBookById: builder.query({
+      query: (id) => `/books/${id}`,
+    }),
   }),
 });
 
-export const { useGetBooksQuery, useCreateBookMutation } = baseApi;
+export const {
+  useGetBooksQuery,
+  useCreateBookMutation,
+  useGetBookByIdQuery,
+  useUpdateBookMutation,
+} = baseApi;
