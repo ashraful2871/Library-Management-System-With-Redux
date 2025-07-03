@@ -10,15 +10,20 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { BookOpenIcon, PencilIcon, Trash2Icon, EyeIcon } from "lucide-react";
 import type { IBook } from "@/type";
-import { Link } from "react-router"; // ✅ should be react-router-dom
+import { Link } from "react-router";
+import { useDeleteBookMutation } from "@/redux/api/baseApi";
 
 interface IProps {
   book: IBook;
 }
 
-const BookCard = ({ book, onDelete, onEdit }: IProps) => {
+const BookCard = ({ book }: IProps) => {
   const { _id, title, author, genre, available, copies } = book;
-
+  const [deleteBook, { isLoading }] = useDeleteBookMutation();
+  const handleDeleteBook = (id) => {
+    console.log(id);
+    deleteBook(id);
+  };
   return (
     <Card className="shadow-xl rounded-2xl border border-muted bg-white dark:bg-muted/40 transition hover:shadow-2xl">
       <CardHeader>
@@ -58,9 +63,9 @@ const BookCard = ({ book, onDelete, onEdit }: IProps) => {
             </Button>
           </Link>
           <Button
+            onClick={() => handleDeleteBook(_id)}
             size="sm"
             variant="destructive"
-            // onClick={() => onDelete?.(_id)}
           >
             <Trash2Icon className="w-4 h-4 mr-1" />
             Delete
