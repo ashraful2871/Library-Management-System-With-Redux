@@ -12,21 +12,81 @@ import { BookOpenIcon, PencilIcon, Trash2Icon, EyeIcon } from "lucide-react";
 import type { IBook } from "@/type";
 import { Link } from "react-router";
 import { useDeleteBookMutation } from "@/redux/api/baseApi";
-
+import Swal from "sweetalert2";
+import { useTheme } from "../theme-provider";
 interface IProps {
   book: IBook;
 }
 
 const BookCard = ({ book }: IProps) => {
   const { _id, title, author, genre, available, copies } = book;
-  const [deleteBook, { isLoading }] = useDeleteBookMutation();
+  const [deleteBook] = useDeleteBookMutation();
+  const { theme } = useTheme();
+  console.log(theme);
   interface HandleDeleteBook {
     (id: string): void;
   }
 
   const handleDeleteBook: HandleDeleteBook = (id) => {
-    deleteBook(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+      background: theme === "dark" ? "#151515" : "#ffffff",
+      color: theme === "dark" ? "#f9fafb" : "#111827",
+      customClass: {
+        confirmButton:
+          "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2",
+        cancelButton:
+          "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded",
+      },
+      buttonsStyling: false,
+
+      preConfirm: async () => {
+        Swal.showLoading();
+        try {
+          const { data } = await deleteBook(id);
+          return data;
+        } catch (error) {
+          Swal.hideLoading();
+          Swal.showValidationMessage(`Request failed: ${error}`);
+        }
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+          background: theme === "dark" ? "#151515" : "#ffffff",
+          color: theme === "dark" ? "#f9fafb" : "#111827",
+          customClass: {
+            confirmButton:
+              "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded",
+          },
+          buttonsStyling: false,
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+          title: "Cancelled",
+          text: "Your imaginary file is safe :)",
+          icon: "error",
+          background: theme === "dark" ? "#151515" : "#ffffff",
+          color: theme === "dark" ? "#f9fafb" : "#111827",
+          customClass: {
+            confirmButton:
+              "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded",
+          },
+          buttonsStyling: false,
+        });
+      }
+    });
   };
+
   return (
     <Card className="shadow-xl rounded-2xl border border-muted bg-white dark:bg-muted/40 transition hover:shadow-2xl">
       <CardHeader>
@@ -71,7 +131,7 @@ const BookCard = ({ book }: IProps) => {
             variant="destructive"
           >
             <Trash2Icon className="w-4 h-4 mr-1" />
-            {isLoading ? "Deleting..." : "Delete"}
+            Delete
           </Button>
         </div>
 
