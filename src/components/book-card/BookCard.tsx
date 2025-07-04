@@ -20,8 +20,11 @@ interface IProps {
 const BookCard = ({ book }: IProps) => {
   const { _id, title, author, genre, available, copies } = book;
   const [deleteBook, { isLoading }] = useDeleteBookMutation();
-  const handleDeleteBook = (id) => {
-    console.log(id);
+  interface HandleDeleteBook {
+    (id: string): void;
+  }
+
+  const handleDeleteBook: HandleDeleteBook = (id) => {
     deleteBook(id);
   };
   return (
@@ -68,13 +71,15 @@ const BookCard = ({ book }: IProps) => {
             variant="destructive"
           >
             <Trash2Icon className="w-4 h-4 mr-1" />
-            Delete
+            {isLoading ? "Deleting..." : "Delete"}
           </Button>
         </div>
 
-        <Button size="sm" disabled={!available}>
-          Borrow
-        </Button>
+        <Link to={`/borrow/${_id}`}>
+          <Button size="sm" disabled={!available}>
+            Borrow
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   );
