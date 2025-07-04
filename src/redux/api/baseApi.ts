@@ -17,6 +17,7 @@ export const baseApi = createApi({
         method: "POST",
         body: bookData,
       }),
+      invalidatesTags: ["book"],
     }),
     deleteBook: builder.mutation({
       query: (id) => ({
