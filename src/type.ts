@@ -16,3 +16,11 @@ export interface IBook {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IBorrowSummary {
+  book: {
+    title: string;
+    isbn: string;
+  };
+  totalQuantity: number;
+}

@@ -4,7 +4,8 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://assignment-3-inky-eight.vercel.app/api",
   }),
-  tagTypes: ["book"],
+  tagTypes: ["book", "borrow"],
+
   endpoints: (builder) => ({
     getBooks: builder.query({
       query: () => "/books",
@@ -42,6 +43,11 @@ export const baseApi = createApi({
         method: "POST",
         body: borrowData,
       }),
+      invalidatesTags: ["book"],
+    }),
+    getBorrowBooks: builder.query({
+      query: () => "/borrow",
+      providesTags: ["borrow"],
     }),
   }),
 });
@@ -53,4 +59,5 @@ export const {
   useUpdateBookMutation,
   useDeleteBookMutation,
   useBorrowBookByIdMutation,
+  useGetBorrowBooksQuery,
 } = baseApi;

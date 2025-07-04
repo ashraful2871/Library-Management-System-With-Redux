@@ -135,11 +135,15 @@ const BookCard = ({ book }: IProps) => {
           </Button>
         </div>
 
-        <Link to={`/borrow/${_id}`}>
+        {available ? (
+          <Link to={`/borrow/${_id}`}>
+            <Button size="sm">Borrow</Button>
+          </Link>
+        ) : (
           <Button size="sm" disabled={!available}>
             Borrow
           </Button>
-        </Link>
+        )}
       </CardFooter>
     </Card>
   );
