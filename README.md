@@ -54,16 +54,7 @@ A lightweight and responsive Library Management System built with **React**, **R
 - Clear call-to-actions and easy navigation
 - Form validations and success/error feedback
 
----
 
-## ✨ Bonus Features
-
-- ⚡ Optimistic UI Updates  
-- 🔔 Toast Notifications  
-- 📱 Responsive Layout  
-- 🔒 Type-safe Forms
-
----
 
 ## 🛠 Tech Stack
 
