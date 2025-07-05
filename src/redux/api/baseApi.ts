@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
+    // baseUrl: "http://localhost:5000/api",
     baseUrl: "https://assignment-3-inky-eight.vercel.app/api",
   }),
   tagTypes: ["book", "borrow"],
@@ -44,7 +45,7 @@ export const baseApi = createApi({
         method: "POST",
         body: borrowData,
       }),
-      invalidatesTags: ["book"],
+      invalidatesTags: ["book", "borrow"],
     }),
     getBorrowBooks: builder.query({
       query: () => "/borrow",

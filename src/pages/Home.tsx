@@ -8,7 +8,7 @@ const Home = () => {
       <div className="max-w-4xl text-center space-y-6">
         <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
           <Sparkles className="h-5 w-5 animate-pulse" />
-          Welcome to MyApp Library
+          Welcome to My Library
         </div>
         <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground">
           Discover, Read, and Borrow Amazing Books 📚

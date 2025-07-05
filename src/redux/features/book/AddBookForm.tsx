@@ -21,11 +21,13 @@ import { useCreateBookMutation } from "@/redux/api/baseApi";
 import Swal from "sweetalert2";
 import { useTheme } from "@/components/theme-provider";
 import Loader from "@/components/loading/Loader";
+import { useNavigate } from "react-router";
 
 const AddBookForm = () => {
   const form = useForm();
   const [createBook, { isLoading }] = useCreateBookMutation();
   const { theme } = useTheme();
+  const navigate = useNavigate();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const bookData = {
       ...data,
@@ -46,13 +48,14 @@ const AddBookForm = () => {
           },
           buttonsStyling: false,
         });
-        swalWithBootstrapButtons.fire({
+        await swalWithBootstrapButtons.fire({
           title: "Created",
           text: `${res.message}`,
           icon: "success",
         });
         console.log("Created:", res);
         form.reset();
+        navigate("/books");
       }
     } catch (error) {
       console.error("Error creating book:", error);
@@ -61,7 +64,7 @@ const AddBookForm = () => {
 
   return (
     <div className="max-w-md mx-auto p-6 shadow-xl rounded-2xl border border-gray-200">
-      <h2 className="text-2xl font-bold mb-6 text-center">Add New Book</h2>
+      <h2 className="text-2xl font-bold mb-6 text-center">📚 Add New Book</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           {/* Title */}

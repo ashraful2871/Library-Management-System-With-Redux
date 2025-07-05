@@ -1,8 +1,5 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { useGetBorrowBooksQuery } from "@/redux/api/baseApi";
-import BorrowCard from "@/components/borrow-card/BorrowCard";
-import type { IBorrowSummary } from "@/type";
-
+import BorrowTable from "./BorrowTable";
 const BorrowSummary = () => {
   const { data, isLoading, isError } = useGetBorrowBooksQuery(undefined);
   console.log(data);
@@ -25,21 +22,12 @@ const BorrowSummary = () => {
   return (
     <div className="max-w-3xl mx-auto p-4">
       <h2 className="text-3xl font-bold mb-6 text-center text-primary">
-        Borrowed Books Summary
+        📚 Borrowed Books Summary
       </h2>
-      <ScrollArea className="h-[700px]">
-        <div className="space-y-6">
-          {data.data.map(
-            ({ book, totalQuantity }: IBorrowSummary, index: number) => (
-              <BorrowCard
-                book={book}
-                totalQuantity={totalQuantity}
-                key={index}
-              ></BorrowCard>
-            )
-          )}
-        </div>
-      </ScrollArea>
+
+      <div className="space-y-6">
+        <BorrowTable borrowSummary={data.data}></BorrowTable>
+      </div>
     </div>
   );
 };

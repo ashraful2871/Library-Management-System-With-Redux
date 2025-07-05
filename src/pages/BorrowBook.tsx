@@ -17,19 +17,23 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import React from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useBorrowBookByIdMutation } from "@/redux/api/baseApi";
 import { ChevronDownIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/components/theme-provider";
+import Loader from "@/components/loading/Loader";
+import Swal from "sweetalert2";
 
 const BorrowBook = () => {
   const [borrowBookById, { isLoading }] = useBorrowBookByIdMutation();
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [dateError, setDateError] = React.useState(false);
-
+  const { theme } = useTheme();
   //   const [date, setDate] = useState(new Date());
   const { id } = useParams();
+  const navigate = useNavigate();
   const form = useForm({
     defaultValues: {
       book: id,
@@ -55,15 +59,48 @@ const BorrowBook = () => {
 
       const res = await borrowBookById(borrowData).unwrap();
       console.log(res);
-      if (res.success === true) {
+      if (res.Success) {
+        const swalWithBootstrapButtons = Swal.mixin({
+          background: theme === "dark" ? "#151515" : "#ffffff",
+          color: theme === "dark" ? "#f9fafb" : "#111827",
+          customClass: {
+            confirmButton:
+              "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2",
+            cancelButton:
+              "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded",
+          },
+          buttonsStyling: false,
+        });
+        await swalWithBootstrapButtons.fire({
+          title: "Borrowed",
+          text: `${res.message}`,
+          icon: "success",
+        });
         form.reset({
           book: id,
           quantity: 0,
         });
         setDate(undefined);
+        navigate("/borrow-summary");
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: unknown) {
+      const err = error as { data?: { message?: string }; message?: string };
+      const swalWithBootstrapButtons = Swal.mixin({
+        background: theme === "dark" ? "#151515" : "#ffffff",
+        color: theme === "dark" ? "#f9fafb" : "#111827",
+        customClass: {
+          confirmButton:
+            "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2",
+          cancelButton:
+            "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded",
+        },
+        buttonsStyling: false,
+      });
+      await swalWithBootstrapButtons.fire({
+        title: "Failed to Borrow",
+        text: err?.data?.message || "Something went wrong",
+        icon: "error",
+      });
     }
   };
 
@@ -163,8 +200,8 @@ const BorrowBook = () => {
             )}
           </FormItem>
 
-          <Button type="submit" className="w-full">
-            {isLoading ? "Borrowing...." : "Confirm Borrow"}
+          <Button variant="outline" type="submit" className="w-full">
+            {isLoading ? <Loader></Loader> : "Confirm Borrow"}
           </Button>
         </form>
       </Form>

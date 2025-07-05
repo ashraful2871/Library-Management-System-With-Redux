@@ -22,10 +22,13 @@ import {
   useUpdateBookMutation,
 } from "@/redux/api/baseApi";
 import { useEffect } from "react";
+import Swal from "sweetalert2";
+import { useTheme } from "@/components/theme-provider";
 
 const EditBook = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const { data: book, isLoading } = useGetBookByIdQuery(id);
   const bookData = book?.data;
   const [updateBook, { isLoading: isUpdating, isError }] =
@@ -57,8 +60,28 @@ const EditBook = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
     try {
-      await updateBook({ id, data: values }).unwrap();
-      navigate("/books");
+      const res = await updateBook({ id, data: values }).unwrap();
+      console.log(res);
+
+      if (res.success) {
+        const swalWithBootstrapButtons = Swal.mixin({
+          background: theme === "dark" ? "#151515" : "#ffffff",
+          color: theme === "dark" ? "#f9fafb" : "#111827",
+          customClass: {
+            confirmButton:
+              "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2",
+            cancelButton:
+              "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded",
+          },
+          buttonsStyling: false,
+        });
+        await swalWithBootstrapButtons.fire({
+          title: "Updated",
+          text: `${res.message}`,
+          icon: "success",
+        });
+        navigate("/books");
+      }
     } catch (err) {
       console.error("Failed to update book:", err);
     }
