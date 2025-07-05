@@ -105,7 +105,7 @@ const BorrowBook = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white dark:bg-zinc-900 rounded-2xl shadow-xl space-y-6">
+    <div className=" mx-auto mt-10 p-6 bg-white dark:bg-zinc-900 rounded-2xl shadow-xl space-y-6">
       <h1 className="text-2xl font-bold text-center text-primary">
         📚 Borrow Book
       </h1>

@@ -61,7 +61,6 @@ const EditBook = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
     try {
       const res = await updateBook({ id, data: values }).unwrap();
-      console.log(res);
 
       if (res.success) {
         const swalWithBootstrapButtons = Swal.mixin({
@@ -87,13 +86,16 @@ const EditBook = () => {
     }
   };
 
-  if (isLoading) return <p>Loading book data...</p>;
-
-  if (isError) return <p>Error loading book: {isError}</p>;
+  if (isLoading)
+    return <p className="text-center py-4">Loading book data...</p>;
+  if (isError)
+    return <p className="text-center text-red-500">Error loading book</p>;
 
   return (
-    <div className="max-w-xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Edit Book</h2>
+    <div className="px-4 sm:px-6 md:px-8 lg:px-0 max-w-2xl mx-auto py-6">
+      <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center">
+        ✏️ Edit Book
+      </h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           {/* Title */}
@@ -109,6 +111,7 @@ const EditBook = () => {
               </FormItem>
             )}
           />
+
           {/* Author */}
           <FormField
             control={form.control}
@@ -122,6 +125,7 @@ const EditBook = () => {
               </FormItem>
             )}
           />
+
           {/* Genre */}
           <FormField
             control={form.control}
@@ -131,12 +135,12 @@ const EditBook = () => {
               <FormItem>
                 <FormLabel>Genre</FormLabel>
                 <Select value={field.value} onValueChange={field.onChange}>
-                  <FormControl className="w-full">
-                    <SelectTrigger>
+                  <FormControl>
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select genre" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="w-full">
+                  <SelectContent>
                     <SelectItem value="FICTION">FICTION</SelectItem>
                     <SelectItem value="NON_FICTION">NON_FICTION</SelectItem>
                     <SelectItem value="SCIENCE">SCIENCE</SelectItem>
@@ -153,6 +157,7 @@ const EditBook = () => {
               </FormItem>
             )}
           />
+
           {/* ISBN */}
           <FormField
             control={form.control}
@@ -166,6 +171,7 @@ const EditBook = () => {
               </FormItem>
             )}
           />
+
           {/* Description */}
           <FormField
             control={form.control}
@@ -179,6 +185,7 @@ const EditBook = () => {
               </FormItem>
             )}
           />
+
           {/* Copies */}
           <FormField
             control={form.control}
@@ -198,7 +205,7 @@ const EditBook = () => {
             )}
           />
 
-          <Button type="submit" className="w-full" disabled={isUpdating}>
+          <Button type="submit" className="w-full mt-2" disabled={isUpdating}>
             {isUpdating ? "Updating..." : "Update Book"}
           </Button>
         </form>
