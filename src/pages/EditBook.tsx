@@ -103,7 +103,8 @@ const EditBook = () => {
           <FormField
             control={form.control}
             name="genre"
-            render={({ field }) => (
+            rules={{ required: "Genre is required" }}
+            render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel>Genre</FormLabel>
                 <Select value={field.value} onValueChange={field.onChange}>
@@ -121,6 +122,11 @@ const EditBook = () => {
                     <SelectItem value="FANTASY">FANTASY</SelectItem>
                   </SelectContent>
                 </Select>
+                {fieldState.error && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {fieldState.error.message}
+                  </p>
+                )}
               </FormItem>
             )}
           />

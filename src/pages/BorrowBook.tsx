@@ -92,13 +92,13 @@ const BorrowBook = () => {
           {/* Quantity */}
           <FormField
             control={form.control}
+            rules={{ required: "Quantity number is required" }}
             name="quantity"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel>Quantity</FormLabel>
                 <FormControl>
                   <Input
-                    required
                     placeholder="Copies Of Book"
                     type="number"
                     min={1}
@@ -110,6 +110,11 @@ const BorrowBook = () => {
                     }
                   />
                 </FormControl>
+                {fieldState.error && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {fieldState.error.message}
+                  </p>
+                )}
               </FormItem>
             )}
           />

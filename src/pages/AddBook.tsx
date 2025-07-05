@@ -1,10 +1,9 @@
-import AddBookModal from "@/redux/features/book/AddBookModal";
+import AddBookForm from "@/redux/features/book/AddBookForm";
 
 const AddBook = () => {
   return (
     <div>
-      <h1>i al add book</h1>
-      <AddBookModal></AddBookModal>
+      <AddBookForm></AddBookForm>
     </div>
   );
 };

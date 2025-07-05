@@ -22,7 +22,6 @@ const BookCard = ({ book }: IProps) => {
   const { _id, title, author, genre, available, copies } = book;
   const [deleteBook] = useDeleteBookMutation();
   const { theme } = useTheme();
-  console.log(theme);
   interface HandleDeleteBook {
     (id: string): void;
   }
@@ -30,7 +29,7 @@ const BookCard = ({ book }: IProps) => {
   const handleDeleteBook: HandleDeleteBook = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "You want to delete this book",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, delete it!",
@@ -50,6 +49,7 @@ const BookCard = ({ book }: IProps) => {
         Swal.showLoading();
         try {
           const { data } = await deleteBook(id);
+
           return data;
         } catch (error) {
           Swal.hideLoading();
@@ -57,10 +57,10 @@ const BookCard = ({ book }: IProps) => {
         }
       },
     }).then((result) => {
-      if (result.isConfirmed) {
+      if (result.isConfirmed && result.value) {
         Swal.fire({
           title: "Deleted!",
-          text: "Your file has been deleted.",
+          text: `${result?.value?.message}`,
           icon: "success",
           background: theme === "dark" ? "#151515" : "#ffffff",
           color: theme === "dark" ? "#f9fafb" : "#111827",

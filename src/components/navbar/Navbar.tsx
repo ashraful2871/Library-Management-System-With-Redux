@@ -1,25 +1,48 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { ModeToggle } from "../mode-toggle";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const Navbar = () => {
+  const { pathname } = useLocation();
+
+  const navItems = [
+    { name: "All Books", to: "/books" },
+    { name: "Add Book", to: "/create-book" },
+    { name: "Borrow Summary", to: "/borrow-summary" },
+  ];
+
   return (
-    <nav className="bg-base-100 p-4 flex gap-10 items-center">
-      <h1 className="text-xl  font-bold">
-        <Link to="/">MyApp</Link>
-      </h1>
-      <div className="space-x-4">
-        <Link to="/books" className="hover:text-yellow-300">
-          All Books
+    <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b shadow-sm p-4">
+      <div className="container mx-auto flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="text-xl font-extrabold tracking-tight">
+          📚 My Library
         </Link>
-        <Link to="/create-book" className="hover:text-yellow-300">
-          Add Book
-        </Link>
-        <Link to="/borrow-summary" className="hover:text-yellow-300">
-          Borrow Summary
-        </Link>
-      </div>
-      <div className="ml-auto">
-        <ModeToggle></ModeToggle>
+
+        {/* Navigation Links */}
+        <div className="space-x-2 sm:space-x-4 hidden sm:flex">
+          {navItems.map((item) => (
+            <Link key={item.to} to={item.to}>
+              <Button
+                variant={pathname === item.to ? "outline" : "ghost"}
+                className={cn(
+                  "font-medium",
+                  pathname === item.to
+                    ? "text-white bg-primary"
+                    : "hover:text-primary"
+                )}
+              >
+                {item.name}
+              </Button>
+            </Link>
+          ))}
+        </div>
+
+        {/* Theme toggle */}
+        <div className="ml-auto sm:ml-0">
+          <ModeToggle />
+        </div>
       </div>
     </nav>
   );
