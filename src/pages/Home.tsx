@@ -11,7 +11,6 @@ const Home = () => {
   return (
     <section className="min-h-[80vh]   bg-background ">
       <div className=" mx-auto flex flex-col gap-10 items-center">
-        {/* Text Content */}
         <div className="text-center space-y-6">
           <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
             <Sparkles className="h-5 w-5 animate-pulse" />
@@ -33,8 +32,6 @@ const Home = () => {
             </Link>
           </div>
         </div>
-
-        {/* Book Cards Grid */}
         <div className="w-full">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {data?.data?.slice(0, 5).map((book: IBook) => (

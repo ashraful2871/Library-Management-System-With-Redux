@@ -18,12 +18,10 @@ const Navbar = () => {
   return (
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b shadow-sm p-4">
       <div className="container mx-auto flex items-center justify-between relative">
-        {/* Left: Logo */}
         <Link to="/" className="text-xl font-extrabold tracking-tight">
           📚 My Library
         </Link>
 
-        {/* Center: Nav Menu (desktop only) */}
         <div className="hidden sm:flex absolute left-1/2 -translate-x-1/2 space-x-2">
           {navItems.map((item) => (
             <Link key={item.to} to={item.to}>
@@ -42,7 +40,6 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Right: Theme Toggle (desktop) + Menu Button (mobile) */}
         <div className="flex items-center gap-2">
           <div className="hidden sm:block">
             <ModeToggle />
@@ -64,7 +61,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <div
         className={cn(
           "sm:hidden overflow-hidden transition-all duration-300 px-4",

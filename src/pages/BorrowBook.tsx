@@ -31,7 +31,6 @@ const BorrowBook = () => {
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [dateError, setDateError] = React.useState(false);
   const { theme } = useTheme();
-  //   const [date, setDate] = useState(new Date());
   const { id } = useParams();
   const navigate = useNavigate();
   const form = useForm({
@@ -55,7 +54,6 @@ const BorrowBook = () => {
     };
     try {
       console.log("Borrow Data:", borrowData);
-      // Call API here
 
       const res = await borrowBookById(borrowData).unwrap();
       console.log(res);
@@ -112,7 +110,6 @@ const BorrowBook = () => {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-          {/* Book ID (disabled) */}
           <FormField
             control={form.control}
             name="book"
